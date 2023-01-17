@@ -94,13 +94,13 @@ jobs:
       - uses: actions/checkout@v2 
       - name: Deploy in EC2
         env:
-            PRIVATE_KEY: ${{ secrets.KEY  }}
-            HOSTNAME : ${{ secrets.HOST  }}
-            USER_NAME : ${{ secrets.USERNAME  }}
+            KEY: ${{ secrets.KEY  }}
+            HOST : ${{ secrets.HOST  }}
+            USERNAME : ${{ secrets.USERNAME  }}
             
         run: |
-          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-          ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
+          echo "$KEY" > private_key && chmod 600 private_key
+          ssh -o StrictHostKeyChecking=no -i private_key '${USERNAME}@${HOST}'
           
             #Now we have got the access of EC2 and we will start the deploy .
-            cd /home/ubuntu/test  
+            cd /home/ubuntu/test
