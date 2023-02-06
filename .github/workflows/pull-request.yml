@@ -99,10 +99,11 @@ jobs:
       - name: Deploy in EC2
         env:
             PRIVATE_KEY: ${{ secrets.KEY  }}
-            HOSTNAME : ${{ secrets.HOST  }}
+            HOSTNAME : ${{ secrets.HOST2  }}
             USER_NAME : ${{ secrets.USERNAME  }}
             
         run: |
+          rm private_key
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
           pwd
           ls -a
