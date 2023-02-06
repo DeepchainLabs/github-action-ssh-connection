@@ -106,8 +106,8 @@ jobs:
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
           pwd
           ls -a
-          ssh  -i private_key ${USER_NAME}@${HOSTNAME} '
+          ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
             #Now we have got the access of EC2 and we will start the deploy .
            cd /home/ubuntu/test &&
-           touch tttxcvttcvt.txt
+           sudo touch tttxcvttcvt.txt
             '
