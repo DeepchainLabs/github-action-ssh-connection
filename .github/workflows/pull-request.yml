@@ -103,5 +103,5 @@ jobs:
             USER_NAME : ${{ secrets.USERNAME  }}
             
         run: |
-          echo "$PRIVATE_KEY" > private_key1 && chmod 700 private_key1
-          ssh  -i -o StrictHostKeyChecking=no  private_key1 ${USER_NAME}@${HOSTNAME} 
+          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+          rm private_key private_key1 private_key.pem
