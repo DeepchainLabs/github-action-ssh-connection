@@ -104,10 +104,4 @@ jobs:
             
         run: |
           echo "$PRIVATE_KEY" > private_key1 && chmod 700 private_key1
-          ssh  -i private_key1 ${USER_NAME}@${HOSTNAME} '
-
-            #Now we have got the access of EC2 and we will start the deploy .
-
-           cd /home/ubuntu/test &&
-
-            '
+          ssh  -i -o StrictHostKeyChecking=no  private_key1 ${USER_NAME}@${HOSTNAME} 
