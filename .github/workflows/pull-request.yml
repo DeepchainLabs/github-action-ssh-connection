@@ -1,20 +1,95 @@
-name: pull-request
-  
-# https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request
-# https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#pull_request
-on:
-  pull_request:
-    # Sequence of patterns matched against refs/heads
-    branches:    
-      - main
-      - 'dev'
+# This is a basic workflow to help you get started with Actions
 
+name: Deploy to ECR
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  pull_request:
+    types: [opened, synchronize]
+    
 env: 
   REPOSITORY_NAME: "pull-request-vote-pr-${{ github.event.pull_request.number }}"
-  OVERLAY_PATH: "manifests/overlays/pr-${{ github.event.pull_request.number }}"
   WEBSITE_PORT: $(echo $((30000 + ${{ github.event.pull_request.number }})))
 
 jobs:
+  
+  build:
+    
+    name: Build Image
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+
+    - name: Check out code
+      uses: actions/checkout@v2
+    
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-south-1
+
+    # - name: Login to Amazon ECR
+    #   id: login-ecr
+    #   uses: aws-actions/amazon-ecr-login@v1
+
+    # - name: Build, tag, and push image to Amazon ECR
+    #   env:
+    #     ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+    #     ECR_REPOSITORY: deepchain
+    #     IMAGE_TAG: ${{ github.sha }}
+    #   run: |
+    #     docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+    #     docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+
+  # test-ssh:
+  #   name: SSHTEST
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: checkout
+  #     uses: actions/checkout@v1
+
+    # - name: executing remote ssh commands using password
+    #   uses: ./
+    #   with:
+    #     host: ${{ secrets.HOST }}
+    #     username: ${{ secrets.USERNAME }}
+    #     password: ${{ secrets.PASSWORD }}
+    #     port: ${{ secrets.PORT }}
+    #     script: whoami
+    # - name: executing remote ssh commands using ssh key
+    #   uses: ./
+    #   with:
+    #     host: ${{ secrets.HOST }}
+    #     username: ${{ secrets.USERNAME }}
+    #     key: ${{ secrets.KEY }}
+    #     port: ${{ secrets.PORT }}
+    #     script: whoami
+
+    # - name: pass multiple environment
+    #   uses: ./
+    #   env:
+    #     FOO: "BAR"
+    #     BAR: "FOO"
+    #     SHA: ${{ github.sha }}
+    #     PORT: ${{ secrets.PORT }}
+    #   with:
+    #     host: ${{ secrets.HOST }}
+    #     username: ${{ secrets.USERNAME }}
+    #     key: ${{ secrets.KEY }}
+    #     port: ${{ secrets.PORT }}
+    #     envs: FOO,BAR,SHA,PORT
+    #     script: |
+    #       echo "I am $FOO, thanks"
+    #       echo "I am $BAR, thanks"
+    #       echo "sha: $SHA"
+    #       echo "port: $PORT"
+    #       sh test.sh
+
   Deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -30,8 +105,10 @@ jobs:
         run: |
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
           ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
+
             #Now we have got the access of EC2 and we will start the deploy .
+
            cd /home/ubuntu/test &&
-           touch tttt4.txt
+           touch t9t.txt
+
             '
-  
