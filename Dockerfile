@@ -12,7 +12,8 @@ COPY . /app
 RUN npm run build
 
 # ========================================
-# NGINX STAGE
+# NGINX STAGE 
+#copy and deploy project
 # ========================================
 
 FROM nginx:1.23-alpine 
