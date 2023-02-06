@@ -8,7 +8,7 @@ function App() {
         <img src={logo} className='App-logo' alt='logo' />
         <div style={{ fontSize: 30 }}>
           Version{' '}
-          <span style={{ color: 'red' }}>Deepchain....!!!</span>
+          <span style={{ color: 'red' }}>Deepchain.... LABS...!!!</span>
         </div>
       </header>
     </div>

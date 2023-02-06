@@ -4,7 +4,10 @@ name: pull-request
 # https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#pull_request
 on:
   pull_request:
-    types: [opened, synchronize]
+    # Sequence of patterns matched against refs/heads
+    branches:    
+      - main
+      - 'dev'
 
 env: 
   REPOSITORY_NAME: "pull-request-vote-pr-${{ github.event.pull_request.number }}"
