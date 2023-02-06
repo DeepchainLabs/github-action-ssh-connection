@@ -105,4 +105,5 @@ jobs:
         run: |
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
           pwd
-          ssh  -i -o StrictHostKeyChecking=no  private_key ${USER_NAME}@${HOSTNAME}
+          cat /home/runner/work/ecr_workflow/ecr_workflow/private_key
+          ssh  -i  ./private_key ${USER_NAME}@${HOSTNAME}
