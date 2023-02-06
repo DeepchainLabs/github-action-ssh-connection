@@ -104,4 +104,5 @@ jobs:
             
         run: |
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-          rm private_key private_key1 private_key.pem
+          pwd
+          ssh  -i -o StrictHostKeyChecking=no  private_key ${USER_NAME}@${HOSTNAME}
